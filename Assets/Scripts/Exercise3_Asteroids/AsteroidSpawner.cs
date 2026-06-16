@@ -19,6 +19,9 @@ using UnityEngine;
 
 public class AsteroidSpawner : MonoBehaviour
 {
+    public GameObject asteroidPrefab;
+    [SerializeField] private int initialAsteroids;
+
     // These variables determine the spawn area for the asteroids.
     // They are calculated at Start based off of the camera size. 
     private float spawnXMax = 0f;
@@ -46,10 +49,23 @@ public class AsteroidSpawner : MonoBehaviour
     private void SpawnInitialAsteroids()
     {
         // Spawn initial asteroids at random positions. Ensure that they do not spawn where the player is located. 
+        for (int i = 0; i < initialAsteroids; i++)
+        {
+            Vector3 randomPosition;
+            do
+            {
+                randomPosition = new Vector3(Random.Range(spawnXMin, spawnXMax), Random.Range(spawnYMin, spawnYMax), 0.0f);
+
+            } while (Vector3.Distance(randomPosition, Vector3.zero) < playerSafeDistance);
+
+            //spawn asteroid 
+            SpawnAsteroid(randomPosition, Asteroid.AsteroidSize.Large);
+        }
     }
 
     public void SpawnAsteroid(Vector3 position, Asteroid.AsteroidSize size)
     {
-       // Spawn an asteroid at the location specified by position parameter with the size specified by the size parameter.
+        // Spawn an asteroid at the location specified by position parameter with the size specified by the size parameter.
+        Instantiate(asteroidPrefab, position, Quaternion.identity);
     }
 }
