@@ -10,7 +10,7 @@
 *       Hint: All movement for the asteroid should be done via a Rigidbody2D and should be able to be set at Start.
 * 2. When the asteroid is destroyed, it should spawn two smaller asteroids if it is not already the smallest size. 
 *       Hint: How can you use a function to set the AsteroidSpawner variable from a different script?
-* 3. When the astroid hits the player, it should destroy the player. 
+* 3. When the asteroid hits the player, it should destroy the player. 
 */
 
 using UnityEngine;
@@ -27,10 +27,16 @@ public class Asteroid : MonoBehaviour
     private Rigidbody2D rb;
     private AsteroidSpawner spawner;
     private Vector2 velocity;
+    private int childrenToSpawn = 2;
 
     void Start()
     {
-    
+        spawner = GameObject.FindAnyObjectByType<AsteroidSpawner>();
+        rb = GetComponent<Rigidbody2D>();
+
+        velocity = Vector2.one * speed;
+        rb.linearVelocity = velocity;
+        rb.angularVelocity = Random.Range(minRotationSpeed, maxRotationSpeed);
     }
 
     void Update()
@@ -39,11 +45,31 @@ public class Asteroid : MonoBehaviour
 
     private void BreakAsteroid()
     {
-
+        if (size != AsteroidSize.Small)
+        {
+            SpawnChildren(size - 1);
+        }
     }
 
     private void SpawnChildren(AsteroidSize childSize)
     {
-        
+        Debug.Log("spawning size " + childSize);
+        for (int i = 0; i < childrenToSpawn; i++)
+        {
+            spawner.SpawnAsteroid(transform.position, childSize);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log(gameObject.name + " (trigger) hit a " + collision.gameObject.name);
+        if (collision.gameObject.CompareTag("Player")) {
+            Destroy(collision.gameObject);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        BreakAsteroid();
     }
 }

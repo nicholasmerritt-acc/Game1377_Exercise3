@@ -26,8 +26,19 @@ public class Bullet : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        bulletLifetime -= Time.deltaTime;
+        if (bulletLifetime <= 0f)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
-
+        if (collision.gameObject.CompareTag("Asteroid")) {
+            Destroy(collision.gameObject);
+        }
     }
 }
