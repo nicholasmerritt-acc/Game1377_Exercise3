@@ -56,17 +56,17 @@ public class AsteroidsPlayerController : MonoBehaviour
 
     private void HandleRotation()
     {
-
+        //transform.rotate * rotationSpeed
     }
 
     private void HandleThrust()
     {
-        
+        //if > 0 (aka w pressed) go forwards * thrustForce
     }
 
     private void HandleFire()
     {
-
+        //get button, call FireBullet()
     }
 
     private void FireBullet()
@@ -89,6 +89,6 @@ public class AsteroidsPlayerController : MonoBehaviour
 
     private void TeleportToRandomLocation()
     {
-
+        //set transform.position using ScreenBounds class
     }
 }
