@@ -23,7 +23,7 @@ public class AsteroidSpawner : MonoBehaviour
     public GameObject asteroidPrefabMedium;
     public GameObject asteroidPrefabSmall;
 
-    [SerializeField] private int initialAsteroids;
+    [SerializeField] private int initialAsteroids = 5;
 
     // These variables determine the spawn area for the asteroids.
     // They are calculated at Start based off of the camera size. 

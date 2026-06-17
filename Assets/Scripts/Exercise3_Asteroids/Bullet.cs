@@ -7,7 +7,7 @@
  * 
  * Requirements:   
  * PART 2: Shooting
- * 1. The bullets should start off moving in the direciton they are spawned at a speed set by bulletSpeed. 
+ * 1. The bullets should start off moving in the direction they are spawned at a speed set by bulletSpeed. 
  *      This should be set in the Start method of this script.
  *      The movement of the bullet should be done with Physics applied to a Rigidbody2D.
  * 2. The bullets should be destroyed after bulletLifetime seconds or when they collide with an asteroid.
@@ -23,7 +23,8 @@ public class Bullet : MonoBehaviour
 
     void Start()
     {
-
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.AddRelativeForce(Vector2.up * bulletSpeed, ForceMode2D.Impulse);
     }
 
     private void Update()
@@ -32,13 +33,6 @@ public class Bullet : MonoBehaviour
         if (bulletLifetime <= 0f)
         {
             Destroy(gameObject);
-        }
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Asteroid")) {
-            Destroy(collision.gameObject);
         }
     }
 }

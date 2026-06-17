@@ -31,7 +31,8 @@ public class Asteroid : MonoBehaviour
 
     void Start()
     {
-        spawner = GameObject.FindAnyObjectByType<AsteroidSpawner>();
+        spawner = FindAnyObjectByType<AsteroidSpawner>();
+        Debug.Log("spawner: " + spawner);
         rb = GetComponent<Rigidbody2D>();
 
         velocity = Vector2.one * speed;
@@ -66,10 +67,11 @@ public class Asteroid : MonoBehaviour
         if (collision.gameObject.CompareTag("Player")) {
             Destroy(collision.gameObject);
         }
-    }
-
-    private void OnDestroy()
-    {
-        BreakAsteroid();
+        else if (collision.gameObject.CompareTag("Bullet"))
+        {
+            BreakAsteroid();
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+        }
     }
 }

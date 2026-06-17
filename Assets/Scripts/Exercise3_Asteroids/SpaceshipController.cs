@@ -28,7 +28,7 @@ public class AsteroidsPlayerController : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private float rotationSpeed = 360f;
-    [SerializeField] private float thrustForce = 500f;
+    [SerializeField] private float thrustForce = 10f;
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject bulletPrefab;
 
@@ -63,13 +63,16 @@ public class AsteroidsPlayerController : MonoBehaviour
     {
         if (thrustInput > 0)
         {
-            rb.AddRelativeForce(thrustForce * thrustInput * Time.deltaTime * Vector2.up);
+            rb.AddRelativeForce(thrustForce * thrustInput * Time.deltaTime * Vector2.up, ForceMode2D.Impulse);
         }
     }
 
     private void HandleFire()
     {
-        //get button, call FireBullet()
+        if (Input.GetButtonDown("Fire"))
+        {
+            FireBullet();
+        }
     }
 
     private void FireBullet()
@@ -84,7 +87,7 @@ public class AsteroidsPlayerController : MonoBehaviour
 
     private void HandleHyperspace()
     {
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("Hyperspace"))
         {
             TeleportToRandomLocation();
         }
