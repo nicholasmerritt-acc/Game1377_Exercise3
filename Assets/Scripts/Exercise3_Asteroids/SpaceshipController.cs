@@ -56,14 +56,14 @@ public class AsteroidsPlayerController : MonoBehaviour
 
     private void HandleRotation()
     {
-        transform.Rotate(rotationInput * rotationSpeed * Time.deltaTime * Vector3.back);
+        transform.Rotate(rotationInput * rotationSpeed * Vector3.back * Time.deltaTime);
     }
 
     private void HandleThrust()
     {
         if (thrustInput > 0)
         {
-            rb.AddRelativeForce(thrustForce * thrustInput * Time.deltaTime * Vector2.up, ForceMode2D.Impulse);
+            rb.AddRelativeForce(thrustForce * thrustInput * Vector2.up * Time.deltaTime, ForceMode2D.Impulse);
         }
     }
 
