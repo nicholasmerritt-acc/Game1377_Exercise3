@@ -54,11 +54,17 @@ public class AsteroidsPlayerController : MonoBehaviour
         HandleThrust();
     }
 
+    /// <summary>
+    /// rotate the spaceship left or right using transform-based rotation
+    /// </summary>
     private void HandleRotation()
     {
         transform.Rotate(rotationInput * rotationSpeed * Vector3.back * Time.deltaTime);
     }
 
+    /// <summary>
+    /// thrust forward only, using rigidbody to apply force.
+    /// </summary>
     private void HandleThrust()
     {
         if (thrustInput > 0)
@@ -67,6 +73,9 @@ public class AsteroidsPlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// handle all inputs related to firing bullets
+    /// </summary>
     private void HandleFire()
     {
         if (Input.GetButtonDown("Fire"))
@@ -75,6 +84,9 @@ public class AsteroidsPlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// create a bullet at our fire point and orient it correctly, the bullet itself should handle thrust
+    /// </summary>
     private void FireBullet()
     {
         if (bulletPrefab == null)
@@ -85,6 +97,9 @@ public class AsteroidsPlayerController : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
     }
 
+    /// <summary>
+    /// handle input related to hyperspace-jumping
+    /// </summary>
     private void HandleHyperspace()
     {
         if (Input.GetButtonDown("Hyperspace"))
@@ -93,6 +108,9 @@ public class AsteroidsPlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// staying within screen bounds, instantly transport the ship to a random location. does not check if area is asteroid-occupied
+    /// </summary>
     private void TeleportToRandomLocation()
     {
         float randomX = Random.Range(ScreenBounds.ScreenLeft, ScreenBounds.ScreenRight);

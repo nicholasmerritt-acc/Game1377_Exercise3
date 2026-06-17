@@ -43,6 +43,9 @@ public class Asteroid : MonoBehaviour
     {
     }
 
+    /// <summary>
+    /// break large asteroids into two smaller ones when asteroid is destroyed
+    /// </summary>
     private void BreakAsteroid()
     {
         if (size != AsteroidSize.Small)
@@ -50,6 +53,7 @@ public class Asteroid : MonoBehaviour
             SpawnChildren(size - 1);
         }
     }
+
 
     private void SpawnChildren(AsteroidSize childSize)
     {
