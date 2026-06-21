@@ -44,31 +44,32 @@ public class AsteroidSpawner : MonoBehaviour
         SpawnInitialAsteroids();
     }
 
-    void Update()
-    {
-        
-    }
-
+    /// <summary>
+    /// Spawn initial asteroids at random positions. Ensure that they do not spawn where the player is located.
+    /// </summary>
     private void SpawnInitialAsteroids()
     {
-        // Spawn initial asteroids at random positions. Ensure that they do not spawn where the player is located. 
         for (int i = 0; i < initialAsteroids; i++)
         {
+            //randomize position until it meets our safe distance criterion
             Vector3 randomPosition;
             do
             {
                 randomPosition = new Vector3(Random.Range(spawnXMin, spawnXMax), Random.Range(spawnYMin, spawnYMax), 0.0f);
 
             } while (Vector3.Distance(randomPosition, Vector3.zero) < playerSafeDistance);
-
-            //spawn asteroid 
+ 
             SpawnAsteroid(randomPosition, Asteroid.AsteroidSize.Large);
         }
     }
 
+    /// <summary>
+    /// Spawn an asteroid at the location specified by position parameter with the size specified by the size parameter.
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="size"></param>
     public void SpawnAsteroid(Vector3 position, Asteroid.AsteroidSize size)
     {
-        Debug.Log($"spawning {size} asteroid at {position}");
         GameObject prefab;
         switch (size)
         {
@@ -83,7 +84,6 @@ public class AsteroidSpawner : MonoBehaviour
                 prefab = asteroidPrefabLarge;
                 break;
         }
-        // Spawn an asteroid at the location specified by position parameter with the size specified by the size parameter.
         Instantiate(prefab, position, Quaternion.identity);
     }
 }

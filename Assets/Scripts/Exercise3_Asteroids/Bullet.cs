@@ -25,14 +25,6 @@ public class Bullet : MonoBehaviour
     {
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         rb.AddRelativeForce(Vector2.up * bulletSpeed, ForceMode2D.Impulse);
-    }
-
-    private void Update()
-    {
-        bulletLifetime -= Time.deltaTime;
-        if (bulletLifetime <= 0f)
-        {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject, bulletLifetime);
     }
 }

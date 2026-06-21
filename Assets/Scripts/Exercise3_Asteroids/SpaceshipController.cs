@@ -49,13 +49,16 @@ public class AsteroidsPlayerController : MonoBehaviour
         HandleHyperspace();
     }
 
+    /// <summary>
+    /// Handle physics updates
+    /// </summary>
     void FixedUpdate()
     {
         HandleThrust();
     }
 
     /// <summary>
-    /// rotate the spaceship left or right using transform-based rotation
+    /// Rotate the spaceship left or right using transform-based rotation
     /// </summary>
     private void HandleRotation()
     {
@@ -63,7 +66,7 @@ public class AsteroidsPlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// thrust forward only, using rigidbody to apply force.
+    /// Thrust forward only, using rigidbody to apply force.
     /// </summary>
     private void HandleThrust()
     {
@@ -74,7 +77,7 @@ public class AsteroidsPlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// handle all inputs related to firing bullets
+    /// Handle input related to firing bullets
     /// </summary>
     private void HandleFire()
     {
@@ -85,7 +88,7 @@ public class AsteroidsPlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// create a bullet at our fire point and orient it correctly, the bullet itself should handle thrust
+    /// Create a bullet at our fire point and orient it correctly. the bullet itself will handle thrust
     /// </summary>
     private void FireBullet()
     {
@@ -94,11 +97,11 @@ public class AsteroidsPlayerController : MonoBehaviour
             Debug.LogWarning("Bullet prefab not assigned!");
             return;
         }
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
     }
 
     /// <summary>
-    /// handle input related to hyperspace-jumping
+    /// Handle input related to hyperspace-jumping
     /// </summary>
     private void HandleHyperspace()
     {
@@ -109,7 +112,7 @@ public class AsteroidsPlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// staying within screen bounds, instantly transport the ship to a random location. does not check if area is asteroid-occupied
+    /// Staying within screen bounds, instantly transport the ship to a random location. Does not check if area is asteroid-occupied.
     /// </summary>
     private void TeleportToRandomLocation()
     {

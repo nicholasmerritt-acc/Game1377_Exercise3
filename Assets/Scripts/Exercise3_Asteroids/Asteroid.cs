@@ -15,6 +15,7 @@
 
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class Asteroid : MonoBehaviour
 {
     public enum AsteroidSize { Small, Medium, Large }
@@ -23,6 +24,8 @@ public class Asteroid : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float minRotationSpeed = -180f;
     [SerializeField] private float maxRotationSpeed = 180f;
+    private float minVelocity = -1.0f;
+    private float maxVelocity = 1.0f;
 
     private Rigidbody2D rb;
     private AsteroidSpawner spawner;
@@ -34,17 +37,15 @@ public class Asteroid : MonoBehaviour
         spawner = FindAnyObjectByType<AsteroidSpawner>();
         rb = GetComponent<Rigidbody2D>();
 
-        velocity = Vector2.one * speed;
+        //set random velocity that will stay constant through the asteroid's life
+        velocity = new Vector2(Random.Range(minVelocity, maxVelocity), Random.Range(minVelocity, maxVelocity));
+        velocity = velocity.normalized * speed;
         rb.linearVelocity = velocity;
         rb.angularVelocity = Random.Range(minRotationSpeed, maxRotationSpeed);
     }
 
-    void Update()
-    {
-    }
-
     /// <summary>
-    /// break large asteroids into two smaller ones when asteroid is destroyed
+    /// Break large asteroids into some smaller ones when asteroid is destroyed
     /// </summary>
     private void BreakAsteroid()
     {
@@ -54,16 +55,22 @@ public class Asteroid : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Spawn "children" of this asteroid of a certain size at our current position
+    /// </summary>
+    /// <param name="childSize"></param>
     private void SpawnChildren(AsteroidSize childSize)
     {
-        Debug.Log("spawning size " + childSize);
         for (int i = 0; i < childrenToSpawn; i++)
         {
             spawner.SpawnAsteroid(transform.position, childSize);
         }
     }
 
+    /// <summary>
+    /// Handle collisions with only player and bullets
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player")) {
