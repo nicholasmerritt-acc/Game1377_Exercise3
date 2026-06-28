@@ -24,28 +24,33 @@ public class Asteroid : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float minRotationSpeed = -180f;
     [SerializeField] private float maxRotationSpeed = 180f;
+    [SerializeField] private int childrenToSpawn = 2;
     private float minVelocity = -1.0f;
     private float maxVelocity = 1.0f;
 
     private Rigidbody2D rb;
-    private AsteroidSpawner spawner;
+    private AsteroidSpawner asteroidSpawner;
     private Vector2 velocity;
-    private int childrenToSpawn = 2;
 
     void Start()
     {
-        spawner = FindAnyObjectByType<AsteroidSpawner>();
+        asteroidSpawner = FindAnyObjectByType<AsteroidSpawner>();
+        if (asteroidSpawner == null)
+        {
+            Debug.LogError("No asteroid spawner found in scene. Asteroids will not spawn.");
+        }
         rb = GetComponent<Rigidbody2D>();
 
         //set random velocity that will stay constant through the asteroid's life
-        velocity = new Vector2(Random.Range(minVelocity, maxVelocity), Random.Range(minVelocity, maxVelocity));
-        velocity = velocity.normalized * speed;
+        Vector2 normalizedDirection = new Vector2(Random.Range(minVelocity, maxVelocity), Random.Range(minVelocity, maxVelocity)).normalized;
+        velocity = normalizedDirection * speed;
         rb.linearVelocity = velocity;
+
         rb.angularVelocity = Random.Range(minRotationSpeed, maxRotationSpeed);
     }
 
     /// <summary>
-    /// Break large asteroids into some smaller ones when asteroid is destroyed
+    /// Break large asteroid into smaller ones, then destroy self
     /// </summary>
     private void BreakAsteroid()
     {
@@ -53,6 +58,7 @@ public class Asteroid : MonoBehaviour
         {
             SpawnChildren(size - 1);
         }
+        Destroy(gameObject);
     }
 
     /// <summary>
@@ -61,9 +67,13 @@ public class Asteroid : MonoBehaviour
     /// <param name="childSize"></param>
     private void SpawnChildren(AsteroidSize childSize)
     {
+        if (asteroidSpawner == null)
+        {
+            return;
+        }
         for (int i = 0; i < childrenToSpawn; i++)
         {
-            spawner.SpawnAsteroid(transform.position, childSize);
+            asteroidSpawner.SpawnAsteroid(transform.position, childSize);
         }
     }
 
@@ -78,9 +88,8 @@ public class Asteroid : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Bullet"))
         {
-            BreakAsteroid();
             Destroy(collision.gameObject);
-            Destroy(gameObject);
+            BreakAsteroid();
         }
     }
 }

@@ -53,9 +53,10 @@ public class AsteroidSpawner : MonoBehaviour
         {
             //randomize position until it meets our safe distance criterion
             Vector3 randomPosition;
+            float zPosition = 0.0f;
             do
             {
-                randomPosition = new Vector3(Random.Range(spawnXMin, spawnXMax), Random.Range(spawnYMin, spawnYMax), 0.0f);
+                randomPosition = new Vector3(Random.Range(spawnXMin, spawnXMax), Random.Range(spawnYMin, spawnYMax), zPosition);
 
             } while (Vector3.Distance(randomPosition, Vector3.zero) < playerSafeDistance);
  
@@ -80,7 +81,10 @@ public class AsteroidSpawner : MonoBehaviour
                 prefab = asteroidPrefabMedium;
                 break;
             case Asteroid.AsteroidSize.Large:
+                prefab = asteroidPrefabLarge;
+                break;
             default:
+                Debug.LogError("Asteroid size not set. Setting to default = Large.");
                 prefab = asteroidPrefabLarge;
                 break;
         }
