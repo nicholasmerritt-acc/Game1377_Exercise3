@@ -63,7 +63,7 @@ public class AsteroidsPlayerController : MonoBehaviour
     /// </summary>
     private void HandleRotation()
     {
-        transform.Rotate(rotationInput * rotationSpeed * Time.deltaTime * Vector3.back);
+        transform.Rotate(Vector3.back * (rotationInput * rotationSpeed * Time.deltaTime));
     }
 
     /// <summary>
@@ -73,7 +73,7 @@ public class AsteroidsPlayerController : MonoBehaviour
     {
         if (thrustInput > 0)
         {
-            rb.AddRelativeForce(thrustForce * thrustInput * Time.deltaTime * Vector2.up);
+            rb.AddRelativeForce(Vector2.up * (thrustForce * thrustInput * Time.fixedDeltaTime));
         }
     }
 
@@ -102,7 +102,7 @@ public class AsteroidsPlayerController : MonoBehaviour
     /// </summary>
     private void HandleHyperspace()
     {
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("Hyperspace"))
         {
             TeleportToRandomLocation();
         }
